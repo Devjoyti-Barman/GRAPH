@@ -1,0 +1,42 @@
+/*
+https://leetcode.com/problems/is-graph-bipartite/
+*/
+
+
+class Solution {
+public:
+    bool vis[101];
+    int color[101];
+    
+    bool dfs(int src,int val,vector<vector<int>>&graph){
+        
+        vis[src]=true;
+        color[src]=val;
+        
+        for(int child: graph[src]){
+            
+            if(vis[child]==false){
+                
+                if( dfs(child,!val,graph)==false )return false;
+            } else if( color[child]==val )return false;
+        }
+        
+        return true;
+    }
+    
+    bool isBipartite(vector<vector<int>>& graph) {
+         
+        int n=graph.size();
+        
+        for(int i=0;i<graph.size();i++){
+            
+            if( !vis[i]){
+                bool res=dfs(i,0,graph);
+                
+                if(res==false)return false;
+            }
+        }
+        
+        return true;
+    }
+};
