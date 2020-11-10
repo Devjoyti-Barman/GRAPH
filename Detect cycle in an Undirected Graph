@@ -1,0 +1,69 @@
+/*
+https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+*/
+/*
+   Here in vis[]==
+   1. 0 means that, that node is not visited
+   2. 1 means that, that node is visited but not explore (and thats our condition) 
+   3. 2 means that,that node is visited and explore
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+bool dfs(int src,vector<int>&vis,vector<int>adj[],int par){
+     
+    vis[src]=1;
+    
+    for(int child: adj[src]){
+        
+        if(child==par)continue;
+        
+        if(vis[child]==1)return true;
+        if( vis[child]==0 and dfs(child,vis,adj,src) )return true;
+    }
+    
+    vis[src]=2;
+    
+    return false;
+}
+
+bool isCyclic(vector<int> adj[], int V)
+{
+   
+    vector<int>vis(V,0);
+    
+    for(int i=0;i<V;i++){
+        
+        if(vis[i]==0 and dfs(i,vis,adj,-1) )return true;
+    }
+    
+    return false;
+   
+}
+
+int main() {
+	
+	int t;
+	cin >> t;
+	
+	while(t--){
+	    
+	    int v, e;
+	    cin >> v >> e;
+	    
+	    vector<int> adj[v];
+	    
+	    for(int i =0;i<e;i++){
+	        int u, v;
+	        cin >> u >> v;
+	        adj[u].push_back(v);
+	    }
+	    
+	    cout << isCyclic(adj,v) << endl;
+	    
+	}
+	
+	return 0;
+}  
